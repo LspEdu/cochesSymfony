@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RentACar
+{% endblock %}
+
+{% block body %}
+	{{ include('./user/_nav.html.twig') }}
+
+	<div class="container d-flex overflow justify-content-start flex-wrap vh-50">
+
+		{% for car in cars %}
+			<div class="card m-2 vh-50" style="width: 18rem;">
+				<div class="card-body">
+					<h5 class="card-title">{{car.brand}}
+						{{car.model}}</h5>
+					<p class="card-text"><strong>Matrícula:</strong> {{car.plate}}</p>
+					<a href="/user/car/{{car.id}}" class="btn btn-primary">Alquilar</a>
+				</div>
+			</div>
+		{% endfor %}
+
+
+	</div>
+{% endblock %}

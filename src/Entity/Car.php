@@ -45,6 +45,12 @@ class Car
         $this->bills = new ArrayCollection();
     }
 
+
+    public function __toString() {
+        return $this->brand;
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -160,6 +166,20 @@ class Car
     public function setOwner(?User $owner): self
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function update(Car $car): self
+    {
+        $this
+            ->setPlate($car->getPlate())
+            ->setBrand($car->getBrand())
+            ->setModel($car->getModel())
+            ->setKm($car->getKm())
+            ->setEngine($car->getEngine())
+            ->setColor($car->getColor());
+
 
         return $this;
     }

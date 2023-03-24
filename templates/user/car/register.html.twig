@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RentACar
+{% endblock %}
+
+{% block body %}
+	{{ include('./user/_nav.html.twig') }}
+
+    <div class="container">
+        {{form(form)}}
+    </div>
+
+{% endblock %}

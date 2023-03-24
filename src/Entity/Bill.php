@@ -24,6 +24,7 @@ class Bill
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -53,9 +54,10 @@ class Bill
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt()
     {
-        return $this->createdAt;
+        $created = date('d/m/Y H:m:s' ,$this->createdAt->getTimestamp());
+        return $created;
     }
 
     public function setCreatedAt(\DateTimeImmutable $createdAt): self

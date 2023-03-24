@@ -1,18 +1,24 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Register{% endblock %}
-
 {% block body %}
-    <h1>Register</h1>
+<style>
+    form {
 
-    {{ form_start(registrationForm) }}
+    }
+</style>
+<div class="container">
+
+    <h1>Registrar</h1>
+
+    {{ form_start(registrationForm, { 'attr' : { 'class' : 'd-flex flex-column '}}) }}
         {{ form_row(registrationForm.username) }}
         {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
+            label: 'Contraseña'
         }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
         {{ form_row(registrationForm.name ) }}
 
-        <button type="submit" class="btn">Register</button>
+        <button type="submit" class="btn btn-primary">Registrar</button>
     {{ form_end(registrationForm) }}
+</div>
 {% endblock %}

@@ -1,0 +1,10 @@
+
+
+{% block body %}
+    {% for bill in bills %}
+        {{bill.id}}
+        {{bill.idUser}}
+        {{bill.idCar.getId}}
+        {{bill.createdAt}}
+    {% endfor %}
+{% endblock %}
