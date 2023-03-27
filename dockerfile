@@ -1,4 +1,4 @@
-FROM php:8.1-apache
+FROM php:8.2-apache
 
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
@@ -7,6 +7,8 @@ RUN apt-get update \
     cron \
      vim \
      locales coreutils apt-utils git libicu-dev g++ libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev;
+
+RUN apt-get install composer
 
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen && \
@@ -24,4 +26,6 @@ ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/do
 RUN chmod +x /usr/local/bin/install-php-extensions && sync && \
     install-php-extensions amqp
 
+RUN composer install 
 WORKDIR /var/www
+CMD ["apache2-foreground"]
