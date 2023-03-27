@@ -1,10 +1,54 @@
+{% extends 'base.html.twig' %}
 
+{% block title %}RentACar
+{% endblock %}
 
 {% block body %}
-    {% for bill in bills %}
-        {{bill.id}}
-        {{bill.idUser}}
-        {{bill.idCar.getId}}
-        {{bill.createdAt}}
-    {% endfor %}
-{% endblock %}
+
+
+	{{ include('./user/_nav.html.twig') }}
+	<div class="container">
+		{% for flash_message in app.session.flashbag.get('error') %}
+			<div class="flash-notice">
+				{{ flash_message }}
+			</div>
+		{% endfor %}
+		<div class="table-responsive  pt-5 ">
+			<table class="table table-secondary">
+				<thead>
+					<tr class="">
+						<th scope="row">Num Factura</th>
+						<th>Coche</th>
+						<th>Fecha Creación</th>
+
+						<th colspan="2" style="text-align:center">Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for bill in bills %}
+						<tr class="">
+							<td scope="row">
+								{{bill.id}}
+							</td>
+							<td> <a class="link-secondary" href="/user/car/{{bill.idCar.id}}">
+								{{bill.idCar.getBrand}} {{bill.idCar.getModel}}
+								</a>	
+							</td>
+							<td>
+								{{bill.createdAt}}</td>
+
+							<td style=" text-align: center; vertical-align: middle;">
+								<a target="_blank" class="btn btn-success" href="/user/bill/{{bill.id}}">Descargar</a>
+							</td>
+
+
+						</tr>
+					{% endfor %}
+				</tbody>
+			</tbody>
+		</table>
+
+	</div>
+
+
+</div>{% endblock %}

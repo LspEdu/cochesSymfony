@@ -18,12 +18,13 @@
 
 				<tbody>
 					<tr class="">
-						<td scope="row">Matrícula</td>
-						<td>Marca</td>
-						<td>Modelo</td>
-						<td>Kilometraje Actual</td>
-						<td>Motor</td>
-						<td>Color</td>
+						<th scope="row">Matrícula</th>
+						<th>Marca</th>
+						<th>Modelo</th>
+						<th>Kilometraje Actual</th>
+						<th>Motor</th>
+						<th>Color</th>
+						<th>Precio</th>
                         {% if user == car.owner %}
                         <td rowspan="2" style=" text-align: center; vertical-align: middle;"><a class="btn btn-primary" href="/user/car/edit/{{car.id}}">Editar</a></td>
                         {% else %}
@@ -38,6 +39,7 @@
 						<td>{{car.km?:'Desconocido'}}</td>
 						<td>{{car.engine?:'Desconocido'}}</td>
 						<td>{{car.color?:'Desconocido'}}</td>
+						<td>{{car.price}}€</td>
 					</tr>
 				</tbody>
 			</table>

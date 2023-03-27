@@ -17,25 +17,28 @@
 						<th>Kilometraje Actual</th>
 						<th>Motor</th>
 						<th>Color</th>
-						<th colspan="2" style="text-align:center" >Acciones</th>
+						<th>Precio</th>
+						<th colspan="2" style="text-align:center">Acciones</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for car in cars %}
 						<tr class="">
 							<td scope="row">
-                            <a class="link-dark" href="/user/car/{{car.id}}">{{car.plate}}</a>
-                            </td>
+								<a class="link-dark" href="/user/car/{{car.id}}">{{car.plate}}</a>
+							</td>
 							<td>{{car.brand}}</td>
 							<td>{{car.model}}</td>
 							<td>{{car.km?:'Desconocido'}}</td>
 							<td>{{car.engine?:'Desconocido'}}</td>
 							<td>{{car.color?:'Desconocido'}}</td>
+							<td>{{car.price}}
+								€</td>
 							<td style=" text-align: center; vertical-align: middle;">
 								<a class="btn btn-primary" href="/user/car/edit/{{car.id}}">Editar</a>
 							</td>
-                            <td style=" text-align: center; vertical-align: middle;">
-								<a class="btn btn-danger" href="/user/car/edit/{{car.id}}">Borrar</a>
+							<td style=" text-align: center; vertical-align: middle;">
+								<a class="btn btn-danger" href="/user/car/delete/{{car.id}}">Borrar</a>
 							</td>
 
 						</tr>
@@ -45,5 +48,5 @@
 		</table>
 
 	</div>
-
-</div>{% endblock %}
+</div>
+{% endblock %}

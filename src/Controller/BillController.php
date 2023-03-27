@@ -4,14 +4,17 @@ namespace App\Controller;
 
 use App\Entity\Bill;
 use App\Entity\Car;
-use App\Entity\User;
-use DateTime;
+use App\Repository\CarRepository;
+use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Dompdf\Dompdf;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Snappy\Pdf;
+use Symfony\Component\HttpFoundation\Response;
 
 class BillController extends AbstractController
 {
@@ -45,5 +48,33 @@ class BillController extends AbstractController
         return $this->render('/user/bill/index.html.twig',[
             'bills' => $bills
         ]);
+    }
+
+    #[Route('/user/bill/{id}', name:'bill_pdf')]
+    public function toPdf(Bill $bill, Pdf $pdf)
+    {
+        $data = [
+            'bill'  =>  $bill,
+            'user'  =>  $bill->getIdUser(),
+            'car'   =>  $bill->getIdCar(),
+        ];
+        $html =  $this->renderView('/user/bill/download.html.twig', $data);
+        $pdf = $pdf->getOutputFromHtml($html);
+
+        return new PdfResponse(
+            $pdf,
+        );
+
+
+
+
+/*         $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->render(); */
+       /*  return new Response (
+            $dompdf->stream('resume', ["Attachment" => false]),
+            Response::HTTP_OK,
+            ['Content-Type' => 'application/pdf']
+        ); */
     }
 }

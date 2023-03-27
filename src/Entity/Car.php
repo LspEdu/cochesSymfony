@@ -5,9 +5,12 @@ namespace App\Entity;
 use App\Repository\CarRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: CarRepository::class)]
+#[UniqueEntity('plate')]
 class Car
 {
     #[ORM\Id]
@@ -15,7 +18,7 @@ class Car
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 7)]
+    #[ORM\Column(length: 7, unique:true)]
     private ?string $plate = null;
 
     #[ORM\Column(length: 255)]
@@ -39,6 +42,9 @@ class Car
     #[ORM\ManyToOne(inversedBy: 'cars')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $owner = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $price = null;
 
     public function __construct()
     {
@@ -180,6 +186,18 @@ class Car
             ->setEngine($car->getEngine())
             ->setColor($car->getColor());
 
+
+        return $this;
+    }
+
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    public function setPrice(string $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

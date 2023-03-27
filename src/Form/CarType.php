@@ -16,6 +16,7 @@ class CarType extends AbstractType
             ->add('plate')
             ->add('brand')
             ->add('model')
+            ->add('price')
             ->add('km')
             ->add('engine')
             ->add('color')

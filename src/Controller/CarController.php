@@ -38,7 +38,7 @@ class CarController extends AbstractController
     }
 
     #[Route('/user/car/createBill/{id}', name: 'car_bill')]
-    public function FunctionName(Car $car)
+    public function createBill(Car $car)
     {
 
         $response = $this->forward('App\Controller\BillController::index', [
@@ -109,5 +109,21 @@ class CarController extends AbstractController
         return $this->renderForm('user/car/edit.html.twig', [
             'form' => $form
         ]);
+    }
+
+    #[Route('/user/car/delete/{id}', name: 'car_delete')]
+    public function FunctionName(Car $car, EntityManagerInterface $em)
+    {
+        $em->remove($car);
+
+        $em->flush();
+
+        $this->addFlash(
+            'success',
+            'Coche borrado con éxito'
+        );
+
+        return $this->redirectToRoute('user_index');
+
     }
 }

@@ -9,8 +9,16 @@
 	{{ include('./user/_nav.html.twig') }}
 	<div class="container">
 		{% for flash_message in app.session.flashbag.get('error') %}
-			<div class="flash-notice">
-				{{ flash_message }}
+			<div class="alert alert-danger alert-dismissible fade show" role="alert">
+				<strong>ERROR</strong>
+				{{flash_message}}
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		{% endfor %}
+		{% for flash_message in app.session.flashbag.get('success') %}
+			<div class="alert alert-success alert-dismissible fade show" role="alert">
+				<strong>{{flash_message}}</strong>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 			</div>
 		{% endfor %}
 		<h1>Bienvenido

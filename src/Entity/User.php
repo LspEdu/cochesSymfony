@@ -41,7 +41,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Car::class, orphanRemoval: true)]
     private Collection $cars;
 
-    private $security;
 
     public function __construct()
     {
@@ -49,7 +48,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->cars = new ArrayCollection();
     }
     public function __toString() {
-        return $this->name;
+        return $this->username;
     }
     
     public function getId(): ?int
