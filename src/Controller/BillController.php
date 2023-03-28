@@ -4,22 +4,18 @@ namespace App\Controller;
 
 use App\Entity\Bill;
 use App\Entity\Car;
-use App\Repository\CarRepository;
-use App\Repository\UserRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Dompdf\Dompdf;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
-use Symfony\Component\HttpFoundation\Response;
 
 class BillController extends AbstractController
 {
     #[Route('/user/bill/create', name: 'bill_create')]
-    public function index(Request $request, Car $car, EntityManagerInterface $em)
+    public function index(Car $car, EntityManagerInterface $em)
     {
         $user = $this->getUser();
         $bill = new Bill();
@@ -50,6 +46,44 @@ class BillController extends AbstractController
             'owner' => false
         ]);
     }
+
+    #[Route('/user/bill/list', name: 'bill_list')]
+    public function listBills(Pdf $pdf)
+    {
+        $bills = $this->getUser()->getBills();
+        $data = [
+            'bills' => $bills,
+            'user' => $this->getUser(),
+            'owner' => false,
+        ];
+
+        $html = $this->renderView('/user/bill/list.html.twig', $data);
+        $pdf = $pdf->getOutputFromHtml($html);
+        return new PdfResponse(
+            $pdf,
+        );
+    }
+
+    #[Route('/user/bill/all', name: 'bill_all')]
+    public function allBills(Pdf $pdf)
+    {
+        $bills = $this->getUser()->getBills();
+        $data = [
+            'bills' => $bills,
+            'user'  => $this->getUser(),
+            'owner' => false, 
+        ];
+
+        $html = $this->renderView('/user/bill/all.html.twig', $data);
+        $pdf = $pdf->getOutputFromHtml($html);
+
+        return new PdfResponse(
+            $pdf,
+        );
+
+    }
+
+    //TODO:: REVISAR !!!
 
     #[Route('/user/bill/car/{id}', name: 'bill_car')]
     public function getCarBill(Car $car)

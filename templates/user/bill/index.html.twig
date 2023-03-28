@@ -13,6 +13,8 @@
 				{{ flash_message }}
 			</div>
 		{% endfor %}
+		
+		<a class="btn btn-success" href="/user/bill/list">Descargar listado de Facturas </a>
 		<div class="table-responsive  pt-5 ">
 			<table class="table table-secondary">
 				<thead>
@@ -53,7 +55,9 @@
 				</tbody>
 			</tbody>
 		</table>
-
+		<div class="d-flex justify-content-end">
+		<a href="/user/bill/all" class="btn btn-primary " >Descargar Todas las Facturas</a>
+		</div>
 	</div>
 
 

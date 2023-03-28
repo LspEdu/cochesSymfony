@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block styles %}
+<style>
+  html,
+  body {
+    height: 100%;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+    <div class="container border border-5  h-100">
+         <div class="row d-flex justify-content-around m-2">
+    <div class="col-3 text-center">
+      <img
+        src="https://i.ibb.co/Gpv3KwY/RC.png"
+        class="img-fluid wh-50 rounded-top"
+        alt=""
+      />
+    </div>
+    <div class="col-3 border border-2 pt-3">
+      <p><strong>Empresa:</strong>RentACar S.L.</p>
+      <p>
+        <strong>CIF:</strong>
+        B-79949947
+      </p>
+      <p>
+        <strong>Ubicación: </strong> Calle Cualquiera Nº 12 11540 Sanlúcar de
+        Barrameda
+      </p>
+    </div>
+  </div>
+  <hr />
+  <div class="d-flex row justify-content-around mt-4">
+    <div class="col-5 fs-1 fw-bolder">
+      <h1 class="text-decoration-underline">Datos del cliente</h1>
+    </div>
+    <div class="col-5"> 
+      <div class="row">
+        <div class="col-6 fs-4 fw-bold">
+          Nombre:
+        </div>
+        <div class="col-6">
+          {{ user.name }}
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col-6 fs-4 fw-bold">
+          Nickname:
+        </div>
+        <div class="col-6">
+          {{ user.username}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+		<div class="table-responsive  pt-5 ">
+			<table class="table table-secondary">
+				<thead>
+					<tr class="">
+						<th scope="row">Num Factura</th>
+						<th>Coche</th>
+						<th>Fecha Creación</th>
+						{% if owner == true %}
+							<th> Usuario </th>
+						{% endif %}
+					</tr>
+				</thead>
+				<tbody>
+					{% for bill in bills %}
+						<tr class="">
+							<td scope="row">
+								<a target="_blank" class="link-dark" href="/user/bill/{{bill.id}}">{{bill.id}}</a>
+							</td>
+							<td> <a class="link-secondary" href="/user/car/{{bill.idCar.id}}">
+								{{bill.idCar.getBrand}} {{bill.idCar.getModel}}
+								</a>	
+							</td>
+							<td>
+								{{bill.createdAt}}
+                            </td>
+						{% if owner == true %}
+							<td> {{bill.idUser.username}} </td>
+						{% endif %}
+						</tr>
+					{% endfor %}
+				</tbody>
+			</tbody>
+		</table>
+
+	</div>
+
+
+</div>
+{% endblock %}

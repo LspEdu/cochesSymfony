@@ -43,7 +43,6 @@ class CarController extends AbstractController
 
         $response = $this->forward('App\Controller\BillController::index', [
             'car' => $car,
-            
         ]);
 
         return $response;
