@@ -20,6 +20,9 @@
 						<th scope="row">Num Factura</th>
 						<th>Coche</th>
 						<th>Fecha Creación</th>
+						{% if owner == true %}
+							<th> Usuario </th>
+						{% endif %}
 
 						<th colspan="2" style="text-align:center">Acciones</th>
 					</tr>
@@ -36,6 +39,9 @@
 							</td>
 							<td>
 								{{bill.createdAt}}</td>
+						{% if owner == true %}
+							<td> {{bill.idUser.username}} </td>
+						{% endif %}
 
 							<td style=" text-align: center; vertical-align: middle;">
 								<a target="_blank" class="btn btn-success" href="/user/bill/{{bill.id}}">Descargar</a>

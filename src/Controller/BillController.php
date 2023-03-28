@@ -46,7 +46,19 @@ class BillController extends AbstractController
     {
         $bills = $this->getUser()->getBills();
         return $this->render('/user/bill/index.html.twig',[
-            'bills' => $bills
+            'bills' => $bills,
+            'owner' => false
+        ]);
+    }
+
+    #[Route('/user/bill/car/{id}', name: 'bill_car')]
+    public function getCarBill(Car $car)
+    {
+        $bills = $car->getBills();
+
+        return $this->render('/user/bill/index.html.twig', [
+            'bills' => $bills,
+            'owner' => true
         ]);
     }
 
@@ -65,16 +77,5 @@ class BillController extends AbstractController
             $pdf,
         );
 
-
-
-
-/*         $dompdf = new Dompdf();
-        $dompdf->loadHtml($html);
-        $dompdf->render(); */
-       /*  return new Response (
-            $dompdf->stream('resume', ["Attachment" => false]),
-            Response::HTTP_OK,
-            ['Content-Type' => 'application/pdf']
-        ); */
     }
 }
