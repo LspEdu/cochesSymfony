@@ -7,6 +7,7 @@ use App\Entity\Car;
 use App\Form\CarType;
 use App\Repository\CarRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,16 +22,14 @@ class CarController extends AbstractController
     {
         if (!$request->get('find')) {
             $cars = $carRepository->findAll();
-        }
-        else {
+        } else {
             $get = $request->get('find');
             $cars = $carRepository->createQueryBuilder('c')
                 ->where('c.brand = :get')
                 ->orWhere('c.model = :get')
                 ->setParameter('get', $get)
                 ->getQuery()
-                ->getResult()
-                ;
+                ->getResult();
         }
         return $this->render('/user/car/cars.html.twig', [
             'cars' => $cars
@@ -79,6 +78,109 @@ class CarController extends AbstractController
         ]);
     }
 
+    /* Función para generar coches de la marca seat */
+    #[Route('/user/car/register/seat', name: 'seat')]
+    public function seat(EntityManagerInterface $em)
+    {
+        $modelos = [
+            'Ibiza',
+            'Toledo',
+            'Tarraco',
+            'Arona',
+        ];
+        $letras = [
+            'A',
+            'B',
+            'C',
+            'D',
+            'E',
+            'F',
+            'G',
+            'H',
+            'I',
+            'J',
+            'K',
+            'L',
+            'M',
+        ];
+
+        for ($i = 30; $i < 100; $i++) {
+            $plate = rand(1000, 9999) . $letras[rand(0, 12)] . $letras[rand(0, 12)] . $letras[rand(0, 12)];
+            $car = new Car();
+            $car
+                ->setBrand('seat')
+                ->setModel($modelos[rand(0, 3)])
+                ->setPlate($plate)
+                ->setPrice(rand(50, 1000))
+                ->setOwner($this->getUser());
+            $em->persist($car);
+            $em->flush();
+        };
+        return $this->redirectToRoute('car_list', []);
+    }
+
+    /**
+     * Función para generar coches de la marca Kia
+     *
+     * @param EntityManagerInterface $em
+     * @return void
+     */
+    #[Route('/user/car/register/kia', name: 'kia')]
+    public function kia(EntityManagerInterface $em)
+    {
+        $letras = [
+            'A',
+            'B',
+            'C',
+            'D',
+            'E',
+            'F',
+            'G',
+            'H',
+            'I',
+            'J',
+            'K',
+            'L',
+            'M',
+        ];
+
+        $modelos = [
+            'Sportage',
+            'Sorento',
+            'Picanto',
+            'Rio',
+            'Ceed',
+            'Niro',
+            'Stonic',
+            'Ceed',
+            'EV6',
+        ];
+
+        for ($i = 30; $i < 100; $i++) {
+            $plate = rand(1000, 9999) . $letras[rand(0, 12)] . $letras[rand(0, 12)] . $letras[rand(0, 12)];
+            $car = new Car();
+            $car
+                ->setBrand('Kia')
+                ->setModel($modelos[rand(0, 3)])
+                ->setPlate($plate)
+                ->setPrice(rand(50, 1000))
+                ->setOwner($this->getUser());
+            $em->persist($car);
+            $em->flush();
+        };
+        return $this->redirectToRoute('car_list', []);
+    }
+
+    #[Route('/user/car/download', name: 'cars_download')]
+    public function downCars(Pdf $pdf, CarRepository $carRepository)
+    {
+        $cars = $carRepository->findAll();
+
+        return $this->render('/user/car/download.html.twig',[
+            'cars' => $cars,
+        ]);
+    }
+
     #[Route('/user/car/{id}', name: 'car_index')]
     public function car(Car $car)
     {
@@ -123,6 +225,5 @@ class CarController extends AbstractController
         );
 
         return $this->redirectToRoute('user_index');
-
     }
 }
