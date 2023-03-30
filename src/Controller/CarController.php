@@ -190,13 +190,13 @@ class CarController extends AbstractController
             'cars'   => $cars,
             'brands' => $brands,
         ];
-       $html = $this->renderView('/user/car/download.html.twig', $data);
-        $pdf = $pdf->getOutputFromHtml($html, array('orientation' => 'Landscape'));
+         $html = $this->renderView('/user/car/download.html.twig', $data);
+        $pdf = $pdf->getOutputFromHtml($html);
         return new PdfResponse (
                 $pdf,
-                'ListaCoches2.pdf'
-        ); 
-/*         return $this->render('/user/car/download.html.twig', $data); */
+                'ListaCoches.pdf'
+        );  
+/*          return $this->render('/user/car/download.html.twig', $data);  */
     }
 
     #[Route('/user/car/{id}', name: 'car_index')]
