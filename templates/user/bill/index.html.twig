@@ -2,12 +2,12 @@
 
 {% block title %}RentACar
 {% endblock %}
-
+		{{ include('./user/_nav.html.twig') }}
 {% block body %}
 
 
-	{{ include('./user/_nav.html.twig') }}
-	<div class="container">
+
+
 		{% for flash_message in app.session.flashbag.get('error') %}
 			<div class="flash-notice">
 				{{ flash_message }}
@@ -58,7 +58,7 @@
 		<div class="d-flex justify-content-end">
 		<a href="/user/bill/all" class="btn btn-primary " >Descargar Todas las Facturas</a>
 		</div>
-	</div>
+
 
 
 </div>{% endblock %}

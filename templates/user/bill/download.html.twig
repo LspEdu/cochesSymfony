@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %} {% block title %} Factura Nº
+{% extends './user/down.base.html.twig' %} {% block title %} Factura Nº
 {{ bill.id }}
 {% endblock %} {% block styles %}
 <style>
@@ -143,7 +143,7 @@
         />
       </div>
       <div class="col-4"></div>
-      <div class="col-1 bottom-0 d-flex justify-content-end flex-row-reverse  align-items-end border">
+      <div class="col-1 bottom-0 d-flex justify-content-end flex-row-reverse  align-items-end ">
         <div>
           <p class="mt-auto mb-0">
             Pag 1

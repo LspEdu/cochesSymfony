@@ -1,11 +1,18 @@
-{% extends 'base.html.twig' %}
+{% extends './user/down.base.html.twig' %}
 
 
 {% block body %}
 	<style>
+	body {
+		line-height: 1em;
+	}
 		p {
 			border: 1px solid green;
 			margin: 10px;
+		}
+
+		.row {
+			height: 75%;
 		}
 
 		@media print {
@@ -27,98 +34,58 @@
 		}
 
 
-		.jump {}
+		.jump {
+			max-height: 1122px;
+			grid-template-areas: " H H H " " T T T " " T T T " " F F F ";
+		}
 
-		{#
-			{# div:not(.container, div:last-child) {
-				border: 1px solid black;
-				margin: 10px;
-			} #}
-		
+		.jump .row:nth-child(1) { grid-area: H;}
+
+		.jump .row:nth-child(2) { grid-area: T;}
+
+		.jump .row:nth-child(3) { grid-area: F;}
+
+		.row:has(header) {
+			height: 50%;
+			border: 2px solid black;
+		}
 
 		table {
+			height: 640px !important;
 			border: 1px solid black;
 
 		}
+
+		footer {
+			bottom:0;
+		}
+
+
+
 	</style>
-	<div class="container">
-
-		{% for brand in brands %}
-			<div class="jump table-resposive">
-				{% if brand[1] > 32 %}
+	{% for brand in brands %}
+		{% set r = 1 %}
+		<div class="jump ">
+			<div class="row h-50 ">
+				<header class=" justify-content-between">
 					<div class="row">
-						<div class="col-6">
-							<table class=" table table-bordered jump" style=" font-size: xx-small">
-								<thead>
-									<tr>
-										<th colspan="7">
-											{{brand['brand']}}
-										</th>
-									</tr>
-									<tr>
-										<th>Modelo</th>
-										<th>Matrícula</th>
-										<th>Precio</th>
-										<th>Kilometraje</th>
-										<th>Motor</th>
-										<th>Color</th>
-										<th>Dueño</th>
-									</tr>
-								</thead>
-								<tbody>
-									{% set j = 0 %}
-
-									{% for car in cars %}
-										{% if car.brand|capitalize == brand['brand']|capitalize  %}
-											<tr class="" id='{{car.brand}}'>
-												<td>{{car.model}}</td>
-												<td>{{car.plate}}</td>
-												<td>{{car.price}}€</td>
-												<td>{{car.km?:'Desconocido'}}</td>
-												<td>{{car.engine?:'Desconocido'}}</td>
-												<td>{{car.color?:'Desconocido'}}</td>
-												<td>{{car.owner}}</td>
-											</tr>
-
-											{% if j == 44 %}
-
-												{% set j = 0 %}
-											</tbody>
-										</table>
-										</div>
-										<div class="col-6">
-										<table class="col-6 table table-bordered jump" style="font-size: xx-small">
-											<thead>
-												<tr>
-													<th colspan="7">
-														{{brand['brand']}}
-													</th>
-												</tr>
-												<tr>
-													<th>Modelo</th>
-													<th>Matrícula</th>
-													<th>Precio</th>
-													<th>Kilometraje</th>
-													<th>Motor</th>
-													<th>Color</th>
-													<th>Dueño</th>
-												</tr>
-											</thead>
-											<tbody>
-											{% else %}
-												{% set j = j + 1 %}
-										{% endif %}
-
-									{% endif %}
-								{% endfor %}
-
-							</tbody>
-						</table>
+						<div class="col-2 ">
+							<img src="https://i.ibb.co/Gpv3KwY/RC.png" class="img-fluid rounded-top " alt="">
+						</div>
+						<div class="col-8 text-center mt-4 d-flex  flex-column justify-content-center">
+							<h1 class=" fw-bolder ">Listado de Coches</h1>
+						</div>
+						<div class="col-2">
+							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Logo_de_la_Consejer%C3%ADa_de_Desarrollo_Educativo_y_Formaci%C3%B3n_Profesional_de_la_Junta_de_Andaluc%C3%ADa.png/800px-Logo_de_la_Consejer%C3%ADa_de_Desarrollo_Educativo_y_Formaci%C3%B3n_Profesional_de_la_Junta_de_Andaluc%C3%ADa.png" class="img-fluid rounded-top" alt="">
+						</div>
 					</div>
-					</div>
-					{% else %}
-
-						<table class="table table-bordered">
+					<hr>
+				</header>
+			</div>
+			{% if brand[1] > 45 %}
+				<div class="row h-50">
+					<div class="col-4">
+						<table class=" table table-bordered " style=" font-size: xx-small">
 							<thead>
 								<tr>
 									<th colspan="7">
@@ -136,6 +103,7 @@
 								</tr>
 							</thead>
 							<tbody>
+								{% set j = 0 %}
 								{% for car in cars %}
 									{% if car.brand|capitalize == brand['brand']|capitalize  %}
 										<tr class="" id='{{car.brand}}'>
@@ -145,13 +113,168 @@
 											<td>{{car.km?:'Desconocido'}}</td>
 											<td>{{car.engine?:'Desconocido'}}</td>
 											<td>{{car.color?:'Desconocido'}}</td>
-											<td>{{car.owner}}</td>
+											<td>{{loop.index}}</td>
+
 										</tr>
-									{% endif %}
-								{% endfor %}
+
+										{% if j == 14 %}
+										</tbody>
+									</table>
+									{% if r == 3 %}
+										{% set r = 0 %}
+									</div>
+								</div>
+
+								<div class="row">
+									<footer {# class="fixed-bottom" #}>
+										<hr>
+										<div class="row">
+											<div class="col-2">
+												<img src="https://i.ibb.co/0f0hnfx/medidas-personales-632x553.png" class="img-fluid rounded-top w-50" alt="">
+											</div>
+											<div class="col-6"></div>
+											<div class="col-4">
+												<div class="row row-cols-1 text-end">
+													<div class="col">
+														INSERTAR SITIO
+													</div>
+													<div class="col">
+														Fecha de Emisión: INSERTAR DATOS
+													</div>
+												</div>
+											</div>
+										</div>
+									</footer>
+								</div>
+							</tbody>
+						</div>
+						<div class="jump">
+							<div class="row">
+								<header class=" justify-content-between">
+									<div class="row">
+										<div class="col-2 mh-25">
+											<img src="https://i.ibb.co/Gpv3KwY/RC.png" class="img-fluid rounded-top " alt="">
+										</div>
+										<div class="col-8 text-center mt-4 d-flex  flex-column justify-content-center">
+											<h1 class=" fw-bolder ">Listado de Coches</h1>
+										</div>
+										<div class="col-2">
+											<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Logo_de_la_Consejer%C3%ADa_de_Desarrollo_Educativo_y_Formaci%C3%B3n_Profesional_de_la_Junta_de_Andaluc%C3%ADa.png/800px-Logo_de_la_Consejer%C3%ADa_de_Desarrollo_Educativo_y_Formaci%C3%B3n_Profesional_de_la_Junta_de_Andaluc%C3%ADa.png" class="img-fluid rounded-top" alt="">
+										</div>
+									</div>
+									<hr>
+								</header>
+							</div>
+
+							<div class="row">
+						{% else %}
 							</tbody>
 						</table>
+					</div>
+
+
+				{% endif %}
+				{% set r = r + 1 %}
+				{% set j = 0 %}
+				<div class="col-4">
+					<table class="table table-bordered" style="font-size: xx-small">
+						<thead>
+							<tr>
+								<th colspan="7">
+									{{brand['brand']}}
+								</th>
+							</tr>
+							<tr>
+								<th>Modelo</th>
+								<th>Matrícula</th>
+								<th>Precio</th>
+								<th>Kilometraje</th>
+								<th>Motor</th>
+								<th>Color</th>
+								<th>Dueño</th>
+							</tr>
+						</thead>
+						<tbody>
+						{% else %}
+							{% set j = j + 1 %}
 					{% endif %}
-				</div>
+
+				{% endif %}
 			{% endfor %}
-		{% endblock %}
+
+		</tbody>
+	</table>
+</div></div><div class="row">
+<footer {# class="fixed-bottom" #}>
+	<hr>
+	<div class="row">
+		<div class="col-2">
+			<img src="https://i.ibb.co/0f0hnfx/medidas-personales-632x553.png" class="img-fluid rounded-top w-50" alt="">
+		</div>
+		<div class="col-6"></div>
+		<div class="col-4">
+			<div class="row row-cols-1 text-end">
+				<div class="col">
+					INSERTAR SITIO
+				</div>
+				<div class="col">
+					Fecha de Emisión: INSERTAR DATOS
+				</div>
+			</div>
+		</div>
+	</div>
+</footer></div></div>{% else %}<div class="jump"><div class="row">
+<div class="col-12">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th colspan="7">
+					{{brand['brand']}}
+				</th>
+			</tr>
+			<tr>
+				<th>Modelo</th>
+				<th>Matrícula</th>
+				<th>Precio</th>
+				<th>Kilometraje</th>
+				<th>Motor</th>
+				<th>Color</th>
+				<th>Dueño</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for car in cars %}
+				{% if car.brand|capitalize == brand['brand']|capitalize  %}
+					<tr class="" id='{{car.brand}}'>
+						<td>{{car.model}}</td>
+						<td>{{car.plate}}</td>
+						<td>{{car.price}}€</td>
+						<td>{{car.km?:'Desconocido'}}</td>
+						<td>{{car.engine?:'Desconocido'}}</td>
+						<td>{{car.color?:'Desconocido'}}</td>
+						<td>{{car.owner}}</td>
+					</tr>
+				{% endif %}
+			{% endfor %}
+		</tbody>
+	</table>
+</div></div><div class="row">
+<footer {# class="fixed-bottom" #}>
+	<hr>
+	<div class="row">
+		<div class="col-2">
+			<img src="https://i.ibb.co/0f0hnfx/medidas-personales-632x553.png" class="img-fluid rounded-top w-50" alt="">
+		</div>
+		<div class="col-6"></div>
+		<div class="col-4">
+			<div class="row row-cols-1 text-end">
+				<div class="col">
+					INSERTAR SITIO
+				</div>
+				<div class="col">
+					Fecha de Emisión: INSERTAR DATOS
+				</div>
+			</div>
+		</div>
+	</div>
+</footer></div></div>{% endif %}{% endfor %}{% endblock %}
