@@ -8,19 +8,150 @@
 			margin: 10px;
 		}
 
-		.jump {
-			break-after: always;
+		@media print {
+			.jump {
+				page-break-after: always;
+			}
 		}
-		div:not(div:first-child, .container, div:last-child) {
+
+		td {
+			height: 0.1%;
+			white-space: nowrap;
+			margin: 0;
+			max-height: 15px;
+		}
+
+		tr {
+			max-height: 15px;
+
+		}
+
+
+		.jump {}
+
+		{#
+			{# div:not(.container, div:last-child) {
+				border: 1px solid black;
+				margin: 10px;
+			} #}
+		
+
+		table {
 			border: 1px solid black;
-			margin: 10px;
+
 		}
 	</style>
 	<div class="container">
 
-		{% for car in cars %}
-			
-           {{dump(car)}}
-		{% endfor %}
+		{% for brand in brands %}
+			<div class="jump table-resposive">
+				{% if brand[1] > 32 %}
+					<div class="row">
+						<div class="col-6">
+							<table class=" table table-bordered jump" style=" font-size: xx-small">
+								<thead>
+									<tr>
+										<th colspan="7">
+											{{brand['brand']}}
+										</th>
+									</tr>
+									<tr>
+										<th>Modelo</th>
+										<th>Matrícula</th>
+										<th>Precio</th>
+										<th>Kilometraje</th>
+										<th>Motor</th>
+										<th>Color</th>
+										<th>Dueño</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% set j = 0 %}
 
-	{% endblock %}
+									{% for car in cars %}
+										{% if car.brand|capitalize == brand['brand']|capitalize  %}
+											<tr class="" id='{{car.brand}}'>
+												<td>{{car.model}}</td>
+												<td>{{car.plate}}</td>
+												<td>{{car.price}}€</td>
+												<td>{{car.km?:'Desconocido'}}</td>
+												<td>{{car.engine?:'Desconocido'}}</td>
+												<td>{{car.color?:'Desconocido'}}</td>
+												<td>{{car.owner}}</td>
+											</tr>
+
+											{% if j == 44 %}
+
+												{% set j = 0 %}
+											</tbody>
+										</table>
+										</div>
+										<div class="col-6">
+										<table class="col-6 table table-bordered jump" style="font-size: xx-small">
+											<thead>
+												<tr>
+													<th colspan="7">
+														{{brand['brand']}}
+													</th>
+												</tr>
+												<tr>
+													<th>Modelo</th>
+													<th>Matrícula</th>
+													<th>Precio</th>
+													<th>Kilometraje</th>
+													<th>Motor</th>
+													<th>Color</th>
+													<th>Dueño</th>
+												</tr>
+											</thead>
+											<tbody>
+											{% else %}
+												{% set j = j + 1 %}
+										{% endif %}
+
+									{% endif %}
+								{% endfor %}
+
+							</tbody>
+						</table>
+					</div>
+					</div>
+					{% else %}
+
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th colspan="7">
+										{{brand['brand']}}
+									</th>
+								</tr>
+								<tr>
+									<th>Modelo</th>
+									<th>Matrícula</th>
+									<th>Precio</th>
+									<th>Kilometraje</th>
+									<th>Motor</th>
+									<th>Color</th>
+									<th>Dueño</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for car in cars %}
+									{% if car.brand|capitalize == brand['brand']|capitalize  %}
+										<tr class="" id='{{car.brand}}'>
+											<td>{{car.model}}</td>
+											<td>{{car.plate}}</td>
+											<td>{{car.price}}€</td>
+											<td>{{car.km?:'Desconocido'}}</td>
+											<td>{{car.engine?:'Desconocido'}}</td>
+											<td>{{car.color?:'Desconocido'}}</td>
+											<td>{{car.owner}}</td>
+										</tr>
+									{% endif %}
+								{% endfor %}
+							</tbody>
+						</table>
+					{% endif %}
+				</div>
+			{% endfor %}
+		{% endblock %}

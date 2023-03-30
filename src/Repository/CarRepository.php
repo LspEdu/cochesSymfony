@@ -42,7 +42,7 @@ class CarRepository extends ServiceEntityRepository
     /**
      * @return Car[] Returns an array of Car objects
      */
-    /* public function findByBrand($value): array
+    public function findByBrand($value): array
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.brand = :val')
@@ -53,7 +53,7 @@ class CarRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
- */
+
 //    public function findOneBySomeField($value): ?Car
 //    {
 //        return $this->createQueryBuilder('c')

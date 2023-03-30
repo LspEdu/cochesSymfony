@@ -7,6 +7,7 @@ use App\Entity\Car;
 use App\Form\CarType;
 use App\Repository\CarRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +17,8 @@ use Symfony\Component\Security\Core\Security;
 
 class CarController extends AbstractController
 {
+
+
 
     #[Route('/user/cars/', name: 'cars')]
     public function carList(CarRepository $carRepository, Request $request)
@@ -176,9 +179,23 @@ class CarController extends AbstractController
     {
         $cars = $carRepository->findAll();
 
-        return $this->render('/user/car/download.html.twig',[
-            'cars' => $cars,
-        ]);
+        $brands = $carRepository->createQueryBuilder('c')
+            ->select('c.brand , count(c.id)')
+            ->groupBy('c.brand')
+            ->getQuery()
+            ->getResult();
+
+
+        $data = [
+            'cars'   => $cars,
+            'brands' => $brands,
+        ];
+        $html = $this->renderView('/user/car/download.html.twig', $data);
+        $pdf = $pdf->getOutputFromHtml($html);
+        return new PdfResponse (
+                $pdf,
+                'ListaCoches.pdf'
+        ) ;
     }
 
     #[Route('/user/car/{id}', name: 'car_index')]
