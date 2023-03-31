@@ -25,7 +25,7 @@
 					{% for car in cars %}
 						<tr class="">
 							<td scope="row">
-								<a class="link-dark" href="/user/car/{{car.id}}">{{car.plate}}</a>
+								<a class="link-dark" href="{{path('car_index', {'id': car.id})}}">{{car.plate}}</a>
 							</td>
 							<td>{{car.brand}}</td>
 							<td>{{car.model}}</td>
@@ -35,10 +35,10 @@
 							<td>{{car.price}}
 								€</td>
 							<td style=" text-align: center; vertical-align: middle;">
-								<a class="btn btn-primary" href="/user/car/edit/{{car.id}}">Editar</a>
+								<a class="btn btn-primary" href="{{ path('car_edit', {'id': car.id}) }}">Editar</a>
 							</td>
 							<td style=" text-align: center; vertical-align: middle;">
-								<a class="btn btn-danger" href="/user/car/delete/{{car.id}}">Borrar</a>
+								<a class="btn btn-danger" href="{{ path('car_delete', {'id': car.id})}}">Borrar</a>
 							</td>
 
 						</tr>

@@ -2,19 +2,19 @@
 
 {% block title %}RentACar
 {% endblock %}
-		{{ include('./user/_nav.html.twig') }}
 {% block body %}
+		{{ include('./user/_nav.html.twig') }}
 
 
 
-
+	<div class="container">
 		{% for flash_message in app.session.flashbag.get('error') %}
 			<div class="flash-notice">
 				{{ flash_message }}
 			</div>
 		{% endfor %}
 		
-		<a class="btn btn-success" href="/user/bill/list">Descargar listado de Facturas </a>
+		<a class="btn btn-success" href="{{path('bill_list')}}">Descargar listado de Facturas </a>
 		<div class="table-responsive  pt-5 ">
 			<table class="table table-secondary">
 				<thead>
@@ -35,7 +35,7 @@
 							<td scope="row">
 								{{bill.id}}
 							</td>
-							<td> <a class="link-secondary" href="/user/car/{{bill.idCar.id}}">
+							<td> <a class="link-secondary" href="{{path('car_index', {'id': bill.idCar.id})}}">
 								{{bill.idCar.getBrand}} {{bill.idCar.getModel}}
 								</a>	
 							</td>
@@ -46,7 +46,7 @@
 						{% endif %}
 
 							<td style=" text-align: center; vertical-align: middle;">
-								<a target="_blank" class="btn btn-success" href="/user/bill/{{bill.id}}">Descargar</a>
+								<a target="_blank" class="btn btn-success" href="{{path('bill_pdf', {'id': bill.id})}}">Descargar</a>
 							</td>
 
 
@@ -56,9 +56,9 @@
 			</tbody>
 		</table>
 		<div class="d-flex justify-content-end">
-		<a href="/user/bill/all" class="btn btn-primary " >Descargar Todas las Facturas</a>
+		<a href="{{path('bill_all')}}" class="btn btn-primary " >Descargar Todas las Facturas</a>
 		</div>
-
+	</div>
 
 
 </div>{% endblock %}

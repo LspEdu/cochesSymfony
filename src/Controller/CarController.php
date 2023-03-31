@@ -73,6 +73,7 @@ class CarController extends AbstractController
         ]);
     }
 
+
     #[Route('/user/car/getCars', name: 'car_list')]
     public function allCars()
     {
@@ -229,6 +230,8 @@ class CarController extends AbstractController
             'form' => $form
         ]);
     }
+
+    
 
     #[Route('/user/car/delete/{id}', name: 'car_delete')]
     public function FunctionName(Car $car, EntityManagerInterface $em)

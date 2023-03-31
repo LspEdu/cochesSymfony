@@ -74,7 +74,7 @@
 							<td scope="row">
 								<a target="_blank" class="link-dark" href="/user/bill/{{bill.id}}">{{bill.id}}</a>
 							</td>
-							<td> <a class="link-secondary" href="/user/car/{{bill.idCar.id}}">
+							<td> <a class="link-secondary" href="{{path('car_index', {'id': bill.idCar.id})}}">
 								{{bill.idCar.getBrand}} {{bill.idCar.getModel}}
 								</a>	
 							</td>

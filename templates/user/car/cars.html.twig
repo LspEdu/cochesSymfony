@@ -6,7 +6,7 @@
 {% block body %}
 	{{ include('./user/_nav.html.twig') }}
 
-	<a href="/user/car/download" class="m-5 btn btn-success">
+	<a href="{{path('cars_download')}}" class="m-5 btn btn-success">
 		Descargar Coches
 	</a>
 	<div class="container d-flex overflow justify-content-start flex-wrap vh-50">
@@ -19,7 +19,7 @@
 						<strong>Precio:</strong>
 						{{car.price}}
 						€</p>
-					<a href="/user/car/{{car.id}}" class="btn btn-primary">Alquilar</a>
+					<a href="{{path('car_index', {'id': car.id})}}" class="btn btn-primary">Alquilar</a>
 				</div>
 			</div>
 		{% endfor %}

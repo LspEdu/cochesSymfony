@@ -26,12 +26,12 @@
 						<th>Color</th>
 						<th>Precio</th>
                         {% if user == car.owner %}
-                        <td rowspan="2" style=" text-align: center; vertical-align: middle;"><a class="btn btn-warning" href="/user/car/edit/{{car.id}}">Editar</a></td>
-						<td rowspan="2" style=" text-align: center; vertical-align: middle;"><a class="btn btn-success" href="/user/bill/car/{{car.id}}">Facturas</a></td>
-						<td rowspan="2" style=" text-align: center; vertical-align: middle;"><a class="btn btn-danger" href="/user/car/delete/{{car.id}}">Borrar</a></td>
+                        <td rowspan="2" style=" text-align: center; vertical-align: middle;"><a class="btn btn-warning" href="{{path('car_edit', {'id': car.id})}}">Editar</a></td>
+						<td rowspan="2" style=" text-align: center; vertical-align: middle;"><a class="btn btn-success" href="{{path('bill_car', {'id': car.id})}}">Facturas</a></td>
+						<td rowspan="2" style=" text-align: center; vertical-align: middle;"><a class="btn btn-danger" href="{{path('car_delete', {'id': car.id})}}">Borrar</a></td>
 						
                         {% else %}
-                        <td rowspan="2" style=" text-align: center; vertical-align: middle;"><a class="btn btn-success" href="/user/car/createBill/{{car.id}}">Alquilar</a></td>
+                        <td rowspan="2" style=" text-align: center; vertical-align: middle;"><a class="btn btn-success" href="{{path('car_bill', {'id': car.id})}}">Alquilar</a></td>
                         {% endif %}
 
 					</tr>

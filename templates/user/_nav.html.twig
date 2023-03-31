@@ -1,7 +1,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light m-2">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/user/">{{ app.user.userIdentifier }}</a>
+    <a class="navbar-brand" href="{{path('user_index')}}">{{ app.user.userIdentifier }}</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -16,10 +16,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="/user/bill">Facturas</a>
+          <a class="nav-link" href="{{path('user_bill')}}">Facturas</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/user/car/getCars">Mis Coches</a>
+          <a class="nav-link" href="{{path('car_list')}}">Mis Coches</a>
         </li>
       </ul>
       <form class="d-flex" method="get" action="/user/cars/">
@@ -34,7 +34,7 @@
       </form>
       <ul class="navbar-nav ms-2">
         <li class="nav-item">
-          <a class="btn btn-danger" href="/logout">Cerrar Sesión</a>
+          <a class="btn btn-danger" href="{{path('app_logout')}}">Cerrar Sesión</a>
         </li>
       </ul>
     </div>
