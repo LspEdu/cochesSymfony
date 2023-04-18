@@ -98,9 +98,9 @@ class Car
         return $this;
     }
 
-    public function getKm(): ?int
+    public function getKm(): mixed
     {
-        return $this->km;
+        return $this->km ?? 'Desconocido';
     }
 
     public function setKm(?int $km): self
@@ -110,9 +110,9 @@ class Car
         return $this;
     }
 
-    public function getEngine(): ?string
+    public function getEngine(): mixed
     {
-        return $this->engine;
+        return $this->engine ?? 'Desconocido';
     }
 
     public function setEngine(?string $engine): self
@@ -122,9 +122,9 @@ class Car
         return $this;
     }
 
-    public function getColor(): ?string
+    public function getColor(): mixed
     {
-        return $this->color;
+        return $this->color ?? 'Desconocido';
     }
 
     public function setColor(?string $color): self

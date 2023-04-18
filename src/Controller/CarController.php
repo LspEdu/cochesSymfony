@@ -191,7 +191,8 @@ class CarController extends AbstractController
             'cars'   => $cars,
             'brands' => $brands,
         ];
-         $html = $this->renderView('/user/car/download.html.twig', $data);
+        $html = $this->renderView('/user/car/download.html.twig', $data);
+        $pdf->setOption('enable-local-file-access', false);
         $pdf = $pdf->getOutputFromHtml($html);
         return new PdfResponse (
                 $pdf,

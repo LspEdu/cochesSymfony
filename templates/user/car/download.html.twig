@@ -3,170 +3,97 @@
 
 {% block body %}
 
-	<style>
-		body {
+<style>
+	body {
 		line-height: 1em;
-		}
-		p {
-			border: 1px solid green;
-			margin: 10px;
-		}
+	}
+	p {
+		border: 1px solid green;
+		margin: 10px;
+	}
 
-		.row {
-			height: 75%;
-		}
+	.row {
+		height: 75%;
+	}
 
-		@media print {
-			.jump {
-				page-break-after: always;
-			}
-		}
-
-		td {
-			height: 0.1%;
-			white-space: nowrap;
-			margin: 0;
-			max-height: 15px;
-		}
-
-		tr {
-			max-height: 15px;
-
-		}
-
-
+	@media print {
 		.jump {
-			max-height: 1122px;
-			grid-template-areas: " H H H " " T T T " " T T T " " F F F ";
+			page-break-after: always;
 		}
+	}
 
-		.jump .row:nth-child(1) { grid-area: H;}
+	td {
+		height: 0.1%;
+		white-space: nowrap;
+		margin: 0;
+		max-height: 15px;
+	}
 
-		.jump .row:nth-child(2) { grid-area: T;}
+	tr {
+		max-height: 15px;
 
-		.jump .row:nth-child(3) { grid-area: F;}
-
-		.row:has(header) {
-			height: 50%;
-			border: 2px solid black;
-		}
-
-		table {
-			min-height: 300mm !important;
-			border: 1px solid black;
-
-		}
-
-		footer {
-			bottom:0;
-		}
+	}
 
 
+	.jump {
+		max-height: 122px;
+		grid-template-areas: " H H H " " T T T " " T T T " " F F F ";
+	}
 
-	</style>
-	{% for brand in brands %}
-		<div class="jump ">
-			<div class="row h-50 ">
-				<header class=" justify-content-between">
-					<div class="row">
-						<div class="col-2 ">
-							<img src="https://i.ibb.co/Gpv3KwY/RC.png" class="img-fluid rounded-top " alt="">
-						</div>
-						<div class="col-8 text-center mt-4 d-flex  flex-column justify-content-center">
-							<h1 class=" fw-bolder ">Listado de Coches</h1>
-						</div>
-						<div class="col-2">
-							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Logo_de_la_Consejer%C3%ADa_de_Desarrollo_Educativo_y_Formaci%C3%B3n_Profesional_de_la_Junta_de_Andaluc%C3%ADa.png/800px-Logo_de_la_Consejer%C3%ADa_de_Desarrollo_Educativo_y_Formaci%C3%B3n_Profesional_de_la_Junta_de_Andaluc%C3%ADa.png" class="img-fluid rounded-top" alt="">
-						</div>
+	.jump .row:nth-child(1) {
+		grid-area: H;
+	}
+
+	.jump .row:nth-child(2) {
+		grid-area: T;
+	}
+
+	.jump .row:nth-child(3) {
+		grid-area: F;
+	}
+
+	.row:has(header) {
+		height: 50%;
+		border: 2px solid black;
+	}
+
+	table {
+		min-height: 300mm !important;
+		border: 1px solid black;
+
+	}
+
+	td {
+		max-height: 15px;
+	}
+
+	footer {
+		bottom: 0;
+	}
+</style>
+{% for brand in brands %}
+	<div class="jump ">
+		<div class="row h-50 ">
+			<header class=" justify-content-between">
+				<div class="row">
+					<div class="col-2 ">
+						<img src="https://i.ibb.co/Gpv3KwY/RC.png" class="img-fluid rounded-top " alt="">
 					</div>
-					<hr>
-				</header>
-			</div>
-			{% if brand[1] > 32 %}
+					<div class="col-8 text-center mt-4 d-flex  flex-column justify-content-center">
+						<h1 class=" fw-bolder ">Listado de Coches</h1>
+					</div>
+					<div class="col-2">
+						<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Logo_de_la_Consejer%C3%ADa_de_Desarrollo_Educativo_y_Formaci%C3%B3n_Profesional_de_la_Junta_de_Andaluc%C3%ADa.png/800px-Logo_de_la_Consejer%C3%ADa_de_Desarrollo_Educativo_y_Formaci%C3%B3n_Profesional_de_la_Junta_de_Andaluc%C3%ADa.png" class="img-fluid rounded-top" alt="">
+					</div>
+				</div>
+				<hr>
+			</header>
+		</div>
+		{% if brand[1] > 32 %}
 			{% set count = brand[1] %}
-				<div class="row h-50 row-cols-1">
-					<div class="col w-100">
-						<table class=" table table-bordered  " >
-							<thead>
-								<tr>
-									<th colspan="7">
-										{{brand['brand']}}
-									</th>
-								</tr>
-								<tr>
-									<th>Modelo</th>
-									<th>Matrícula</th>
-									<th>Precio</th>
-									<th>Kilometraje</th>
-									<th>Motor</th>
-									<th>Color</th>
-									<th>Dueño</th>
-								</tr>
-							</thead>
-							<tbody  style="font-size: xx-small">
-								{% set j = 0 %}
-								{% for car in cars %}
-									{% if car.brand|capitalize == brand['brand']|capitalize  %}
-										<tr class="" id='{{car.brand}}'>
-											<td>{{car.model}}</td>
-											<td>{{car.plate}}</td>
-											<td>{{car.price}}€</td>
-											<td>{{car.km?:'Desconocido'}}</td>
-											<td>{{car.engine?:'Desconocido'}}</td>
-											<td>{{car.color?:'Desconocido'}}</td>
-											<td>{{loop.index}}</td>
-
-										</tr>
-
-										{% if j == 32 %}
-											{% set j = 0 %}
-											{% set count = count - 32 %}
-											{% if count < 32 %}
-																			</tbody>
-									</table>
-									</div>
-					</div>
-				<footer {# class="fixed-bottom" #}>
-	<hr>
-	<div class="row">
-		<div class="col-2">
-			<img src="https://i.ibb.co/0f0hnfx/medidas-personales-632x553.png" class="img-fluid rounded-top w-50" alt="">
-		</div>
-		<div class="col-6"></div>
-		<div class="col-4">
-			<div class="row row-cols-1 text-end">
-				<div class="col">
-					INSERTAR SITIO
-				</div>
-				<div class="col">
-					Fecha de Emisión: INSERTAR DATOS
-				</div>
-			</div>
-		</div>
-	</div>
-</footer>
-</div>
-<div class="jump">
-<div class="row h-50 ">
-				<header class=" justify-content-between">
-					<div class="row">
-						<div class="col-2 ">
-							<img src="https://i.ibb.co/Gpv3KwY/RC.png" class="img-fluid rounded-top " alt="">
-						</div>
-						<div class="col-8 text-center mt-4 d-flex  flex-column justify-content-center">
-							<h1 class=" fw-bolder ">Listado de Coches</h1>
-						</div>
-						<div class="col-2">
-							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Logo_de_la_Consejer%C3%ADa_de_Desarrollo_Educativo_y_Formaci%C3%B3n_Profesional_de_la_Junta_de_Andaluc%C3%ADa.png/800px-Logo_de_la_Consejer%C3%ADa_de_Desarrollo_Educativo_y_Formaci%C3%B3n_Profesional_de_la_Junta_de_Andaluc%C3%ADa.png" class="img-fluid rounded-top" alt="">
-						</div>
-					</div>
-					<hr>
-				</header>
-			</div>
-<div class="row">
-
-				<div class="col">
-					<table class="table table-bordered">
+			<div class="row h-50 row-cols-1">
+				<div class="col w-100">
+					<table class=" table table-bordered  ">
 						<thead>
 							<tr>
 								<th colspan="7">
@@ -183,156 +110,245 @@
 								<th>Dueño</th>
 							</tr>
 						</thead>
-						<tbody  style="font-size: large">
-											{% else %}
+						<tbody style="font-size: xx-small">
+							{% set j = 0 %}
+							{% for car in cars %}
+								{% if car.brand|capitalize == brand['brand']|capitalize  %}
+									<tr class="" id='{{car.brand}}'>
+										<td>{{car.model}}</td>
+										<td>{{car.plate}}</td>
+										<td>{{car.price}}€</td>
+										<td>{{car.km?:'Desconocido'}}</td>
+										<td>{{car.engine?:'Desconocido'}}</td>
+										<td>{{car.color?:'Desconocido'}}</td>
+										<td>{{loop.index}}</td>
+
+									</tr>
+
+									{% if j == 32 %}
+										{% set j = 0 %}
+										{% set count = count - 32 %}
+										{% if count < 32 %}
 										</tbody>
 									</table>
+								</div>
+							</div>
+							<footer {# class="fixed-bottom" #}>
+								<hr>
+								<div class="row">
+									<div class="col-2">
+										<img src="https://i.ibb.co/0f0hnfx/medidas-personales-632x553.png" class="img-fluid rounded-top w-50" alt="">
 									</div>
+									<div class="col-6"></div>
+									<div class="col-4">
+										<div class="row row-cols-1 text-end">
+											<div class="col">
+												INSERTAR SITIO
+											</div>
+											<div class="col">
+												Fecha de Emisión: INSERTAR DATOS
+											</div>
+										</div>
+									</div>
+								</div>
+							</footer>
+						</tbody>
 					</div>
-				<footer {# class="fixed-bottom" #}>
-	<hr>
-	<div class="row">
-		<div class="col-2">
-			<img src="https://i.ibb.co/0f0hnfx/medidas-personales-632x553.png" class="img-fluid rounded-top w-50" alt="">
-		</div>
-		<div class="col-6"></div>
-		<div class="col-4">
-			<div class="row row-cols-1 text-end">
-				<div class="col">
-					INSERTAR SITIO
-				</div>
-				<div class="col">
-					Fecha de Emisión: INSERTAR DATOS
-				</div>
+					<div class="jump">
+						<div class="row h-50 ">
+							<header class=" justify-content-between">
+								<div class="row">
+									<div class="col-2 ">
+										<img src="https://i.ibb.co/Gpv3KwY/RC.png" class="img-fluid rounded-top " alt="">
+									</div>
+									<div class="col-8 text-center mt-4 d-flex  flex-column justify-content-center">
+										<h1 class=" fw-bolder ">Listado de Coches</h1>
+									</div>
+									<div class="col-2">
+										<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Logo_de_la_Consejer%C3%ADa_de_Desarrollo_Educativo_y_Formaci%C3%B3n_Profesional_de_la_Junta_de_Andaluc%C3%ADa.png/800px-Logo_de_la_Consejer%C3%ADa_de_Desarrollo_Educativo_y_Formaci%C3%B3n_Profesional_de_la_Junta_de_Andaluc%C3%ADa.png" class="img-fluid rounded-top" alt="">
+									</div>
+								</div>
+								<hr>
+							</header>
+						</div>
+						<div class="row">
+
+							<div class="col">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th colspan="7">
+												{{brand['brand']}}
+											</th>
+										</tr>
+										<tr>
+											<th>Modelo</th>
+											<th>Matrícula</th>
+											<th>Precio</th>
+											<th>Kilometraje</th>
+											<th>Motor</th>
+											<th>Color</th>
+											<th>Dueño</th>
+										</tr>
+									</thead>
+									<tbody style="font-size: large">
+								{% else %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<footer {# class="fixed-bottom" #}>
+							<hr>
+							<div class="row">
+								<div class="col-2">
+									<img src="https://i.ibb.co/0f0hnfx/medidas-personales-632x553.png" class="img-fluid rounded-top w-50" alt="">
+								</div>
+								<div class="col-6"></div>
+								<div class="col-4">
+									<div class="row row-cols-1 text-end">
+										<div class="col">
+											INSERTAR SITIO
+										</div>
+										<div class="col">
+											Fecha de Emisión: INSERTAR DATOS
+										</div>
+									</div>
+								</div>
+							</div>
+						</footer>
+					</div>
+					<div class="jump">
+						<div class="row h-50 ">
+							<header class=" justify-content-between">
+								<div class="row">
+									<div class="col-2 ">
+										<img src="https://i.ibb.co/Gpv3KwY/RC.png" class="img-fluid rounded-top " alt="">
+									</div>
+									<div class="col-8 text-center mt-4 d-flex  flex-column justify-content-center">
+										<h1 class=" fw-bolder ">Listado de Coches</h1>
+									</div>
+									<div class="col-2">
+										<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Logo_de_la_Consejer%C3%ADa_de_Desarrollo_Educativo_y_Formaci%C3%B3n_Profesional_de_la_Junta_de_Andaluc%C3%ADa.png/800px-Logo_de_la_Consejer%C3%ADa_de_Desarrollo_Educativo_y_Formaci%C3%B3n_Profesional_de_la_Junta_de_Andaluc%C3%ADa.png" class="img-fluid rounded-top" alt="">
+									</div>
+								</div>
+								<hr>
+							</header>
+						</div>
+						<div class="row">
+
+							<div class="col">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th colspan="7">
+												{{brand['brand']}}
+											</th>
+										</tr>
+										<tr>
+											<th>Modelo</th>
+											<th>Matrícula</th>
+											<th>Precio</th>
+											<th>Kilometraje</th>
+											<th>Motor</th>
+											<th>Color</th>
+											<th>Dueño</th>
+										</tr>
+									</thead>
+									<tbody style="font-size: xx-small">
+
+									{% endif %}
+								{% else %}
+									{% set j = j + 1 %}
+								{% endif %}
+
+							{% endif %}
+						{% endfor %}
+
+					</tbody>
+				</table>
 			</div>
 		</div>
-	</div>
-</footer>
-</div>
-<div class="jump">
-<div class="row h-50 ">
-				<header class=" justify-content-between">
-					<div class="row">
-						<div class="col-2 ">
-							<img src="https://i.ibb.co/Gpv3KwY/RC.png" class="img-fluid rounded-top " alt="">
-						</div>
-						<div class="col-8 text-center mt-4 d-flex  flex-column justify-content-center">
-							<h1 class=" fw-bolder ">Listado de Coches</h1>
-						</div>
-						<div class="col-2">
-							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Logo_de_la_Consejer%C3%ADa_de_Desarrollo_Educativo_y_Formaci%C3%B3n_Profesional_de_la_Junta_de_Andaluc%C3%ADa.png/800px-Logo_de_la_Consejer%C3%ADa_de_Desarrollo_Educativo_y_Formaci%C3%B3n_Profesional_de_la_Junta_de_Andaluc%C3%ADa.png" class="img-fluid rounded-top" alt="">
+		<div class="row">
+			<footer {# class="fixed-bottom" #}>
+				<hr>
+				<div class="row">
+					<div class="col-2">
+						<img src="https://i.ibb.co/0f0hnfx/medidas-personales-632x553.png" class="img-fluid rounded-top w-50" alt="">
+					</div>
+					<div class="col-6"></div>
+					<div class="col-4">
+						<div class="row row-cols-1 text-end">
+							<div class="col">
+								INSERTAR SITIO
+							</div>
+							<div class="col">
+								Fecha de Emisión: INSERTAR DATOS
+							</div>
 						</div>
 					</div>
-					<hr>
-				</header>
-			</div>
-<div class="row">
-
-				<div class="col">
-					<table class="table table-bordered">
-						<thead>
-							<tr>
-								<th colspan="7">
-									{{brand['brand']}}
-								</th>
-							</tr>
-							<tr>
-								<th>Modelo</th>
-								<th>Matrícula</th>
-								<th>Precio</th>
-								<th>Kilometraje</th>
-								<th>Motor</th>
-								<th>Color</th>
-								<th>Dueño</th>
-							</tr>
-						</thead>
-						<tbody  style="font-size: xx-small">
-
-											{% endif %}
-						{% else %}
-							{% set j = j + 1 %}
-					{% endif %}
-
-				{% endif %}
-			{% endfor %}
-
-		</tbody>
-	</table>
-</div></div><div class="row">
-<footer {# class="fixed-bottom" #}>
-	<hr>
-	<div class="row">
-		<div class="col-2">
-			<img src="https://i.ibb.co/0f0hnfx/medidas-personales-632x553.png" class="img-fluid rounded-top w-50" alt="">
-		</div>
-		<div class="col-6"></div>
-		<div class="col-4">
-			<div class="row row-cols-1 text-end">
-				<div class="col">
-					INSERTAR SITIO
 				</div>
-				<div class="col">
-					Fecha de Emisión: INSERTAR DATOS
-				</div>
-			</div>
+			</footer>
 		</div>
 	</div>
-</footer></div></div>{% else %}<div class="jump"><div class="row">
-<div class="col-12">
-	<table class="table table-bordered" style="font-size: x-large;">
-		<thead>
-			<tr>
-				<th colspan="7">
-					{{brand['brand']}}
-				</th>
-			</tr>
-			<tr>
-				<th>Modelo</th>
-				<th>Matrícula</th>
-				<th>Precio</th>
-				<th>Kilometraje</th>
-				<th>Motor</th>
-				<th>Color</th>
-				<th>Dueño</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for car in cars %}
-				{% if car.brand|capitalize == brand['brand']|capitalize  %}
-					<tr class="" id='{{car.brand}}'>
-						<td>{{car.model}}</td>
-						<td>{{car.plate}}</td>
-						<td>{{car.price}}€</td>
-						<td>{{car.km?:'Desconocido'}}</td>
-						<td>{{car.engine?:'Desconocido'}}</td>
-						<td>{{car.color?:'Desconocido'}}</td>
-						<td>{{car.owner}}</td>
-					</tr>
-				{% endif %}
-			{% endfor %}
-		</tbody>
-	</table>
-</div></div><div class="row">
-<footer {# class="fixed-bottom" #}>
-	<hr>
-	<div class="row">
-		<div class="col-2">
-			<img src="https://i.ibb.co/0f0hnfx/medidas-personales-632x553.png" class="img-fluid rounded-top w-50" alt="">
-		</div>
-		<div class="col-6"></div>
-		<div class="col-4">
-			<div class="row row-cols-1 text-end">
-				<div class="col">
-					INSERTAR SITIO
-				</div>
-				<div class="col">
-					Fecha de Emisión: INSERTAR DATOS
-				</div>
+{% else %}
+	<div class="jump">
+		<div class="row">
+			<div class="col-12">
+				<table class="table table-bordered" style="font-size: x-large; height: fit-content">
+					<thead>
+						<tr>
+							<th colspan="7">
+								{{brand['brand']}}
+							</th>
+						</tr>
+						<tr>
+							<th>Modelo</th>
+							<th>Matrícula</th>
+							<th>Precio</th>
+							<th>Kilometraje</th>
+							<th>Motor</th>
+							<th>Color</th>
+							<th>Dueño</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for car in cars %}
+							{% if car.brand|capitalize == brand['brand']|capitalize  %}
+								<tr class="" id='{{car.brand}}'>
+									<td>{{car.model}}</td>
+									<td>{{car.plate}}</td>
+									<td>{{car.price}}€</td>
+									<td>{{car.km?:'Desconocido'}}</td>
+									<td>{{car.engine?:'Desconocido'}}</td>
+									<td>{{car.color?:'Desconocido'}}</td>
+									<td>{{car.owner}}</td>
+								</tr>
+							{% endif %}
+						{% endfor %}
+					</tbody>
+				</table>
 			</div>
 		</div>
+		<div class="row">
+			<footer {# class="fixed-bottom" #}>
+				<hr>
+				<div class="row">
+					<div class="col-2">
+						<img src="https://i.ibb.co/0f0hnfx/medidas-personales-632x553.png" class="img-fluid rounded-top w-50" alt="">
+					</div>
+					<div class="col-6"></div>
+					<div class="col-4">
+						<div class="row row-cols-1 text-end">
+							<div class="col">
+								INSERTAR SITIO
+							</div>
+							<div class="col">
+								Fecha de Emisión: INSERTAR DATOS
+							</div>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
 	</div>
-</footer></div></div>{% endif %}{% endfor %}
-
-
-
-{% endblock %}
+{% endif %}{% endfor %}{% endblock %}

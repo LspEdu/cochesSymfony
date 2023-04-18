@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Bill;
 use App\Entity\Car;
+use App\Service\SoluPDF;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,6 +12,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Fpdf\Fpdf;
+use Spatie\Browsershot\Browsershot;
 
 class BillController extends AbstractController
 {
@@ -75,6 +80,7 @@ class BillController extends AbstractController
         ];
 
         $html = $this->renderView('/user/bill/all.html.twig', $data);
+        $pdf->setOption('enable-local-file-access', true);
         $pdf = $pdf->getOutputFromHtml($html);
 
         return new PdfResponse(
@@ -82,6 +88,43 @@ class BillController extends AbstractController
         );
 
     }
+    #[Route('/user/bill/dompdf', name: 'bill_dompdf')]
+    public function dmpf()
+    {
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
+        $pdf = new Dompdf($options);
+        $bills = $this->getUser()->getBills();
+        $data = [
+            'bills' => $bills,
+            'user'  => $this->getUser(),
+            'owner' => false, 
+        ];
+        $html = $this->renderView('/user/bill/dompdf.html.twig', $data);
+
+
+        $pdf->loadHtml($html);
+
+            Browsershot::html($html)->save('prueba.pdf');
+
+        return $this->redirectToRoute('bill_user');
+
+
+/* 
+        $pdf->render();
+
+        
+        $pdf->stream("DOMPDF.pdf", [
+            "Attachment" => false
+        ]);    */
+         
+/*          return $this->render('/user/bill/dompdf.html.twig',$data);   */
+    }
+
+
+
+
+
 
     //TODO:: REVISAR !!!
 
@@ -105,11 +148,15 @@ class BillController extends AbstractController
             'car'   =>  $bill->getIdCar(),
         ];
         $html =  $this->renderView('/user/bill/download.html.twig', $data);
+        $pdf->setOption('enable-local-file-access', true);
         $pdf = $pdf->getOutputFromHtml($html);
+        
 
         return new PdfResponse(
             $pdf,
         );
 
     }
+
+
 }
