@@ -11,8 +11,13 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.14",
         "dompdf/dompdf": "^2.0",
+        "fpdf/fpdf": "^1.85",
+        "h4cc/wkhtmltoimage-amd64": "0.12.x",
+        "h4cc/wkhtmltopdf-amd64": "0.12.x",
         "knplabs/knp-snappy-bundle": "^1.9",
         "sensio/framework-extra-bundle": "^6.2",
+        "setasign/fpdi": "^2.3",
+        "spatie/browsershot": "^3.57",
         "symfony/console": "5.4.*",
         "symfony/dotenv": "5.4.*",
         "symfony/flex": "^1.17|^2",
@@ -26,6 +31,7 @@
         "symfony/serializer": "5.4.*",
         "symfony/twig-bundle": "5.4.*",
         "symfony/validator": "5.4.*",
+        "symfony/webpack-encore-bundle": "^1.16",
         "symfony/yaml": "5.4.*"
     },
     "config": {
