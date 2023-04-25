@@ -15,7 +15,10 @@ use Knp\Snappy\Pdf;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Fpdf\Fpdf;
+use Mpdf\Mpdf;
 use Spatie\Browsershot\Browsershot;
+use Symfony\Bundle\TwigBundle\DependencyInjection\Compiler\TwigEnvironmentPass;
+use Symfony\Component\HttpFoundation\Response;
 
 class BillController extends AbstractController
 {
@@ -69,6 +72,9 @@ class BillController extends AbstractController
         );
     }
 
+
+
+
     #[Route('/user/bill/all', name: 'bill_all')]
     public function allBills(Pdf $pdf)
     {
@@ -85,9 +91,38 @@ class BillController extends AbstractController
 
         return new PdfResponse(
             $pdf,
+            'TodasLasFacturas.pdf'
         );
 
     }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    #[Route('/user/bill/MPDF', name: 'mpdf_bill')]
+    public function pruebaMpdf()
+    {
+        
+        $mpdf = new Mpdf();
+        $bills = $this->getUser()->getBills();
+        $data = [
+            'bills' => $bills,
+            'user'  => $this->getUser(),
+            'owner' => false, 
+        ];
+
+
+        
+        $mpdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY );
+
+        $mpdf->Output();
+
+
+    }
+
+
     #[Route('/user/bill/dompdf', name: 'bill_dompdf')]
     public function dmpf()
     {
@@ -100,45 +135,38 @@ class BillController extends AbstractController
             'user'  => $this->getUser(),
             'owner' => false, 
         ];
-        $html = $this->renderView('/user/bill/dompdf.html.twig', $data);
+
+        $html = $this->renderView('/user/bill/invoice.html.twig', $data);
 
 
         $pdf->loadHtml($html);
 
-            Browsershot::html($html)->save('prueba.pdf');
-
-        return $this->redirectToRoute('bill_user');
-
-
-/* 
+        
         $pdf->render();
 
         
         $pdf->stream("DOMPDF.pdf", [
             "Attachment" => false
-        ]);    */
+        ]);    
          
 /*          return $this->render('/user/bill/dompdf.html.twig',$data);   */
     }
 
 
-
-
-
-
-    //TODO:: REVISAR !!!
-
-    #[Route('/user/bill/car/{id}', name: 'bill_car')]
-    public function getCarBill(Car $car)
+    #[Route('/user/bill/puro' , name: 'purecss')]
+    public function pure()
     {
-        $bills = $car->getBills();
-
-        return $this->render('/user/bill/index.html.twig', [
-            'bills' => $bills,
-            'owner' => true
+        return $this->render('/user/bill/invoice.html.twig',[
+            
         ]);
     }
 
+
+
+
+    /**
+     * 
+     */
     #[Route('/user/bill/{id}', name:'bill_pdf')]
     public function toPdf(Bill $bill, Pdf $pdf)
     {
@@ -157,6 +185,19 @@ class BillController extends AbstractController
         );
 
     }
+
+        //TODO:: REVISAR !!!
+
+        #[Route('/user/bill/car/{id}', name: 'bill_car')]
+        public function getCarBill(Car $car)
+        {
+            $bills = $car->getBills();
+    
+            return $this->render('/user/bill/index.html.twig', [
+                'bills' => $bills,
+                'owner' => true
+            ]);
+        }
 
 
 }

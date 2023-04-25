@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<title>Dompdf</title>
+
+		<style type="text/css">
+			* {
+				font-family: Verdana, Arial, sans-serif;
+			}
+			table {
+				font-size: small;
+			}
+			tfoot tr td {
+				font-weight: bold;
+			}
+
+			.gray {
+				background-color: lightgray;
+			}
+
+			body {
+				height: 100%
+			}
+
+			.jump {
+				page-break-after: always;
+			}
+
+			.cont {
+				display: grid;
+				grid-template-areas: "I . H" 
+									 "T T T"
+									 "T T T"
+									 "F F F";
+			}
+
+
+			footer {
+				width: 100%;
+				position: absolute;
+				bottom: -5px;
+				display: grid;
+				grid-template-areas: "L . R";
+				height: 10%;
+			}
+			footer div {
+				width: 40%
+			}
+		</style>
+	</head>
+	<body>
+		{% for bill in bills %}
+			<div class="cont">
+				<table width="100%" style="grid-area: i">
+					<tr>
+						<td valign="top">
+							<img src="{{ absolute_url(asset('img/RC.png')) }}" style="height: 10em;"/>
+						</td>
+						<td align="right" style="text-align: right;width: 170px">
+							<h3>Empresa:  RentACar S.L.</h3>
+								<p><b>CIF:</b> B-79949947</p>
+								<p><b>Ubicación:</b> Calle Cualquiera Nº12 11540 Sanlúcar de Barrameda</p>
+						</td>
+					</tr>
+
+				</table>
+
+				<table width="100%" style="grid-area: H">
+					<tr>
+						<td style="width:70%">
+							<h3><strong>Datos del cliente:</strong></h3>
+						</td>
+
+						<td>
+							<p><b>Nombre: </b> {{user.name}}</p>
+							<p><b>Nickname: </b> {{user.username}}</p>
+						</td>
+					</tr>
+
+				</table>
+
+				<br/>
+
+				<table width="100%" style="grid-area: T">
+					<thead style="background-color: lightgray;">
+						<tr>
+							<th>Marca</th>
+							<th>Modelo</th>
+							<th>Matrícula</th>
+							<th>Kilómetros</th>
+							<th>Motor</th>
+							<th>Color</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">{{bill.getIdCar}}</th>
+							<td>{{bill.getIdCar.model}}</td>
+							<td>{{bill.getIdCar.plate}}</td>
+							<td>{{bill.getIdCar.Km}}</td>
+							<td>{{bill.getIdCar.Engine}}</td>
+							<td>{{bill.getIdCar.Color}}</td>
+						</tr>
+
+					</tbody>
+
+					<tfoot style="font-size: larger">
+						<tr style="color: grey">
+							<td colspan="4"></td>
+							<td>Vehículo propiedad de</td>
+							<td align="right">{{bill.getIdCar.owner}}</td>
+						</tr>
+						<tr>
+							<td colspan="4"></td>
+							<td align="right">Total</td>
+							<td align="right" class="gray">{{bill.getIdCar.Price}}</td>
+						</tr>
+					</tfoot>
+				</table>
+				<footer style="grid-area: F">
+	
+						<img src="{{ absolute_url(asset('img/RC.png')) }}" style="height: 10em;  "/>
+
+					<div style="text-align: right; right: 0; position: inherit">
+						<p>Fecha: INTRODUCIR FECHA</p>
+						<p>Página:{{loop.index}}</p>
+					</div>
+				</footer>
+				{% if loop.last %}
+				{% else %}
+					<div class="jump"></div>
+				{% endif %}
+			</div>
+		{% endfor %}
+	</body>
+</html>
