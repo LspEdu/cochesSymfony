@@ -7,6 +7,8 @@ use App\Entity\Car;
 use App\Form\CarType;
 use App\Repository\CarRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -200,6 +202,35 @@ class CarController extends AbstractController
         );  
 /*          return $this->render('/user/car/download.html.twig', $data);  */
     }
+
+    #[Route('/user/cars/dompdf', name:'car_dompdf')]
+    public function carDompdf(CarRepository $carRepository)
+    {
+        $cars = $carRepository->findAll();
+        $brands = $carRepository->createQueryBuilder('c')
+            ->select('c.brand , count(c.id)')
+            ->groupBy('c.brand')
+            ->getQuery()
+            ->getResult();
+        $data = [
+            'cars'   => $cars,
+            'brands' => $brands,
+        ];
+        $html = $this->renderView('/user/car/dompdf.html.twig', $data);
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+
+        
+        $dompdf->stream("ListadoCochesDOMPDF.pdf", [
+            "Attachment" => false
+        ]);  
+/* 
+        return $this->render('/user/car/dompdf.html.twig', $data); */
+    }
+
 
     #[Route('/user/car/{id}', name: 'car_index')]
     public function car(Car $car)

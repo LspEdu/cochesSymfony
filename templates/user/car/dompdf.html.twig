@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Listado Coches</title>
+		<style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+
+            * {
+                font-family: 'Roboto', sans-serif;
+            }
+
+			.jump {
+				page-break-after: always;
+			}
+
+            footer {
+                position: absolute;
+                width: 100%;
+				position: absolute;
+				bottom: -5px;
+            }
+
+            .tabla table tbody{
+                background-color: #e8e8e8;
+            }
+
+            .tabla table thead {
+                background-color: #d3d3d3;
+            }
+
+
+		</style>
+	</head>
+	<body>
+		{% for brand in brands %}
+			<div {% if loop.last == false %} class="jump" {% endif %}>
+				{{ include('/user/car/_header.html.twig') }}
+                <div class="tabla">
+                    {% if brand[1] > 32 %} {#brand[1] es el número de coches de cada marca #}
+                        {% set coches = brand[1] %} {# creamos un contador con el número total #}
+                        <table class="" style="width: 100%; text-align: center">
+						<thead>
+							<tr>
+								<th colspan="7" style="font-size: large">
+									{{brand['brand']}}
+								</th>
+							</tr>
+							<tr>
+								<th>Modelo</th>
+								<th>Matrícula</th>
+								<th>Precio</th>
+								<th>Kilometraje</th>
+								<th>Motor</th>
+								<th>Color</th>
+								<th>Dueño</th>
+							</tr>
+						</thead>
+						<tbody style="font-size: x-small">
+							{% set j = 0 %}
+							{% for car in cars %}
+								{% if car.brand|capitalize == brand['brand']|capitalize  %}
+									<tr class="" id='{{car.brand}}'>
+										<td>{{car.model}}</td>
+										<td>{{car.plate}}</td>
+										<td>{{car.price}}€</td>
+										<td>{{car.km?:'Desconocido'}}</td>
+										<td>{{car.engine?:'Desconocido'}}</td>
+										<td>{{car.color?:'Desconocido'}}</td>
+										<td>{{car.owner}}</td>
+
+									</tr>
+
+									{% if j == 32 %} {# Se han escrito 32 coches #}
+										{% set j = 0 %}
+                                        {% set coches = coches - 32 %}
+                        </tbody>
+                    </table>
+                </div>
+                {{ include('/user/car/_footer.html.twig') }}
+            </div>
+            <div class="jump">
+                {{ include('/user/car/_header.html.twig') }}
+                    <div class="tabla">
+                         <table class="" style="width: 100%; text-align: center " >
+						<thead>
+							<tr>
+								<th colspan="7" style="font-size: medium">
+									{{brand['brand']}}
+								</th>
+							</tr>
+							<tr>
+								<th>Modelo</th>
+								<th>Matrícula</th>
+								<th>Precio</th>
+								<th>Kilometraje</th>
+								<th>Motor</th>
+								<th>Color</th>
+								<th>Dueño</th>
+							</tr>
+						</thead>
+						<tbody {% if coches < 20 %}
+                            style="font-size: medium"
+                        {% else %}
+                            style="font-size: x-small"
+                        {% endif %}>
+                            <tr class="" id='{{car.brand}}'>
+										<td>{{car.model}}</td>
+										<td>{{car.plate}}</td>
+										<td>{{car.price}}€</td>
+										<td>{{car.km?:'Desconocido'}}</td>
+										<td>{{car.engine?:'Desconocido'}}</td>
+										<td>{{car.color?:'Desconocido'}}</td>
+										<td>{{car.owner}}</td>
+
+							</tr>
+                                    {% else %} {# No se han escrito 32 coches #}
+                                        {% set j = j + 1 %}
+                                    {% endif %}
+                                {% endif %} {#IF si coche pertenece a la marca#}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {{ include('/user/car/_footer.html.twig') }}
+            </div>
+
+                    {% else %} {#Si hay menos de 32 coches en una marca, es decir, caben en 1 página#}
+                <div class="tabla">
+                        <table class="" style="width: 100%; text-align: center">
+						<thead>
+							<tr>
+								<th colspan="7" style="font-size: large">
+									{{brand['brand']}}
+								</th>
+							</tr>
+							<tr>
+								<th>Modelo</th>
+								<th>Matrícula</th>
+								<th>Precio</th>
+								<th>Kilometraje</th>
+								<th>Motor</th>
+								<th>Color</th>
+								<th>Dueño</th>
+							</tr>
+						</thead>
+						<tbody style="font-size: medium">
+							{% set j = 0 %}
+							{% for car in cars %}
+								{% if car.brand|capitalize == brand['brand']|capitalize  %}
+									<tr class="" id='{{car.brand}}'>
+										<td>{{car.model}}</td>
+										<td>{{car.plate}}</td>
+										<td>{{car.price}}€</td>
+										<td>{{car.km?:'Desconocido'}}</td>
+										<td>{{car.engine?:'Desconocido'}}</td>
+										<td>{{car.color?:'Desconocido'}}</td>
+										<td>{{car.owner}}</td>
+									</tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {{ include('/user/car/_footer.html.twig') }}
+                    {% endif %}
+                
+
+            </div>
+        {% endfor %}
+    </body>
+</html>

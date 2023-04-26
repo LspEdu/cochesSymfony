@@ -63,13 +63,10 @@
 
 	}
 
-<<<<<<< HEAD
-=======
 	td {
 		max-height: 15px;
 	}
 
->>>>>>> 7049ef59f330cdffcf055e42b2e42e59b4098f5d
 	footer {
 		bottom: 0;
 	}
@@ -92,7 +89,7 @@
 				<hr>
 			</header>
 		</div>
-		{% if brand[1] > 32 %}
+		{% if brand[1] > 32 %} {# Brand[1] es el número de coches de cada marca #}
 			{% set count = brand[1] %}
 			<div class="row h-50 row-cols-1">
 				<div class="col w-100">
@@ -124,7 +121,7 @@
 										<td>{{car.km?:'Desconocido'}}</td>
 										<td>{{car.engine?:'Desconocido'}}</td>
 										<td>{{car.color?:'Desconocido'}}</td>
-										<td>{{loop.index}}</td>
+										<td>{{car.owner}}</td>
 
 									</tr>
 
@@ -297,11 +294,7 @@
 	<div class="jump">
 		<div class="row">
 			<div class="col-12">
-<<<<<<< HEAD
-				<table class="table table-bordered" style="font-size: x-large;">
-=======
 				<table class="table table-bordered" style="font-size: x-large; height: fit-content">
->>>>>>> 7049ef59f330cdffcf055e42b2e42e59b4098f5d
 					<thead>
 						<tr>
 							<th colspan="7">
