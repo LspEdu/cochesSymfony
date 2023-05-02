@@ -98,9 +98,9 @@ class Car
         return $this;
     }
 
-    public function getKm(): mixed
+    public function getKm(): ?int
     {
-        return $this->km ?? 'Desconocido';
+        return $this->km;
     }
 
     public function setKm(?int $km): self
